@@ -46,6 +46,10 @@
                   "calculation": "val / 1000000"
                 }
               }
+            },
+            {
+              "asset": "gps_status",
+              "value": "All Ok"
             }
           ]
         }
@@ -89,7 +93,7 @@
           "do": [
             {
               "asset": "MD",
-              "value": "Disable"
+              "value": "Disabled"
             }
           ]
         },
@@ -97,8 +101,8 @@
           "case": 1,
           "do": [
             {
-              "asset": "MD",
-              "value": "Move"
+              "asset": "MD_mode",
+              "value": "Movement"
             }
           ]
         },
@@ -106,7 +110,7 @@
           "case": 2,
           "do": [
             {
-              "asset": "MD",
+              "asset": "MD_mode",
               "value": "Collide"
             }
           ]
@@ -115,7 +119,7 @@
           "case": 3,
           "do": [
             {
-              "asset": "MD",
+              "asset": "MD_mode",
               "value": "Custom"
             }
           ]
