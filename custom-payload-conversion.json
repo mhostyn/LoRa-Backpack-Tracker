@@ -4,19 +4,52 @@
   "version": "0.1",
   "sense": [
     {
-      "asset": "gps_location",
-      "value": {
-        "latitude": {
-          "byte": 0,
-          "bytelength": 4,
-          "calculation": "val / 1000000"
+      "switch": {
+        "byte": 0,
+        "bytelength": 8
+      },
+      "on": [
+        {
+          "comment": "LON&LAT 0x 0F FF FF FF",
+          "case": 1152921500580315100,
+          "do": [
+            {
+              "asset": "gps_status",
+              "value": "Low Battery"
+            }
+          ]
         },
-        "longitude": {
-          "byte": 4,
-          "bytelength": 4,
-          "calculation": "val / 1000000"
+        {
+          "comment": "LON&LAT 0x 00 00 00 00",
+          "case": 0,
+          "do": [
+            {
+              "asset": "gps_status",
+              "value": "No Signal"
+            }
+          ]
+        },
+        {
+          "case": "$default",
+          "do": [
+            {
+              "asset": "gps_location",
+              "value": {
+                "latitude": {
+                  "byte": 0,
+                  "bytelength": 4,
+                  "calculation": "val / 1000000"
+                },
+                "longitude": {
+                  "byte": 4,
+                  "bytelength": 4,
+                  "calculation": "val / 1000000"
+                }
+              }
+            }
+          ]
         }
-      }
+      ]
     },
     {
       "asset": "battery_voltage",
@@ -25,6 +58,15 @@
         "bit": 2,
         "bitlength": 14,
         "calculation": "val / 1000"
+      }
+    },
+    {
+      "asset": "battery_percentage",
+      "value": {
+        "byte": 8,
+        "bit": 2,
+        "bitlength": 14,
+        "calculation": "( (val - 2800) / ( 4200 - 2800 ) ) * 100"
       }
     },
     {
@@ -37,10 +79,47 @@
       }
     },
     {
-      "switch": { "byte": 0 },
+      "switch": {
+        "byte": 11,
+        "bitlength": 2
+      },
       "on": [
-        { "case": 0, "do": [{ "asset": "message", "value": "Running" }] },
-        { "case": 1, "do": [{ "asset": "message", "value": "Debug mode" }] }
+        {
+          "case": 0,
+          "do": [
+            {
+              "asset": "MD",
+              "value": "Disable"
+            }
+          ]
+        },
+        {
+          "case": 1,
+          "do": [
+            {
+              "asset": "MD",
+              "value": "Move"
+            }
+          ]
+        },
+        {
+          "case": 2,
+          "do": [
+            {
+              "asset": "MD",
+              "value": "Collide"
+            }
+          ]
+        },
+        {
+          "case": 3,
+          "do": [
+            {
+              "asset": "MD",
+              "value": "Custom"
+            }
+          ]
+        }
       ]
     }
   ]
